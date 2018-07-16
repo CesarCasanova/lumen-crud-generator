@@ -1,0 +1,27 @@
+{
+    "name": "wronx/lumen-crud-generator",
+    "description": "Simple CRUD generation for Lumen",
+    "license": "WTFPL",
+    "type": "lumen-package",
+    "keywords": [
+        "crud",
+        "crud generator",
+        "lumen"
+    ],
+    "require": {
+        "laravel/lumen-framework": "5.6.*"
+    },
+    "authors": [
+        {
+            "name": "Marcin \"WRonX\" Wronka",
+            "email": "wronx@wronx.net",
+            "homepage": "http://wronx.net",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "WRonX\\LumenCrudGenerator\\": "src"
+        }
+    }
+}
