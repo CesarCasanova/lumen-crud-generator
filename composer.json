@@ -20,8 +20,18 @@
         }
     ],
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "WRonX\\LumenCrudGenerator\\": "src"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "WRonX\\LumenCrudGenerator\\Providers\\LumenCrudGeneratorProvider"
+            ]
         }
     }
 }
