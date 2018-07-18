@@ -27,13 +27,11 @@ class MakeCrudCommand extends Command
     
     private function createController() {
         $this->info("Creating controller . . .");
-        $modelName = $this->modelName;
-        $modelNamePlural = str_plural($modelName);
-        $model_name_snake_case = snake_case($modelName);
         
         $this->getStub(StubType::CONTROLLER);
-        $this->stubReplace(compact('modelName', 'modelNamePlural', 'model_name_snake_case'));
-        $filePath = realpath(config('lumen-crud.targets')[StubType::CONTROLLER] . $modelNamePlural . 'Controller.php');
+        $this->stubReplace();
+        $filePath = realpath(config('lumen-crud.targets')[StubType::CONTROLLER] .
+                             $this->getReplacementArray()['modelNamePlural'] . 'Controller.php');
         
         file_put_contents($filePath, $this->currentStubContent);
         
@@ -45,8 +43,17 @@ class MakeCrudCommand extends Command
         $this->currentStubContent = file_get_contents(config('lumen-crud.stubs')[$this->currentStub]);
     }
     
-    private function stubReplace(array $fields) {
-        foreach($fields as $fieldName => $value)
+    private function stubReplace() {
+        foreach($this->getReplacementArray() as $fieldName => $value)
             $this->currentStubContent = str_replace('{{' . $fieldName . '}}', $value, $this->currentStubContent);
+    }
+    
+    private function getReplacementArray() {
+        return [
+            'modelName'         => $this->modelName,
+            'modelNamePlural'   => str_plural($this->modelName),
+            'model_name'        => snake_case($this->modelName),
+            'model_name_plural' => snake_case(str_plural($this->modelName)),
+        ];
     }
 }

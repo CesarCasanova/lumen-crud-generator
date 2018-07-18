@@ -13,46 +13,46 @@ class {{modelNamePlural}}Controller extends Controller
     }
 
     public function show($id) {
-        ${{model_name_snake_case}} = {{modelName}}::find($id);
+        ${{model_name}} = {{modelName}}::find($id);
 
-        if(${{model_name_snake_case}} === null)
+        if(${{model_name}} === null)
             return new JsonResponse(['message' => 'Not found'], 404);
 
-        return new JsonResponse(${{model_name_snake_case}});
+        return new JsonResponse(${{model_name}});
     }
 
     public function store(Request $request) {
-        ${{model_name_snake_case}} = new {{modelName}}($request->toArray());
+        ${{model_name}} = new {{modelName}}($request->toArray());
 
         // HERE: additional, non-fillable fields
 
-        ${{model_name_snake_case}}->save();
+        ${{model_name}}->save();
 
-        if(${{model_name_snake_case}})
-            return new JsonResponse([${{model_name_snake_case}}], 201);
+        if(${{model_name}})
+            return new JsonResponse([${{model_name}}], 201);
 
         return new JsonResponse(['message' => 'Server Error'], 500);
     }
 
     public function destroy($id) {
-        ${{model_name_snake_case}} = {{modelName}}::find($id);
+        ${{model_name}} = {{modelName}}::find($id);
 
-        if(${{model_name_snake_case}} === null)
+        if(${{model_name}} === null)
             return new JsonResponse(['message' => 'Not found'], 404);
 
-        ${{model_name_snake_case}}->delete();
+        ${{model_name}}->delete();
 
         return new JsonResponse([], 204);
     }
 
     public function update($id, Request $request) {
-        ${{model_name_snake_case}} = {{modelName}}::find($id);
+        ${{model_name}} = {{modelName}}::find($id);
 
-        if(${{model_name_snake_case}} === null)
+        if(${{model_name}} === null)
             return new JsonResponse(['message' => 'Not found'], 404);
 
-        ${{model_name_snake_case}}->update($request->toArray());
+        ${{model_name}}->update($request->toArray());
 
-        return new JsonResponse(${{model_name_snake_case}});
+        return new JsonResponse(${{model_name}});
     }
 }
