@@ -9,43 +9,58 @@ class MakeCrudCommand extends Command
 {
     protected $signature = 'make:crud
                             {model : Model class name}
+                            {--r|create-routes : Add CRUD routes to routes file}
                             ';
     
     protected $description = 'Generate CRUD for model';
     
-    private $currentStub;
-    private $currentStubContent;
+    private $infoMessages = [
+        StubType::CONTROLLER => 'Creating controller',
+        StubType::ROUTES     => 'Adding routes',
+    ];
     
     private $modelName;
     
     public function handle() {
         $this->modelName = studly_case(str_singular($this->argument('model')));
         $this->alert("CRUD generation for model '{$this->modelName}'");
-        
-        $this->createController();
+    
+        $this->createCrudElement(StubType::CONTROLLER);
+    
+        if($this->option('create-routes'))
+            $this->createCrudElement(StubType::ROUTES);
     }
     
-    private function createController() {
-        $this->info("Creating controller . . .");
-        
-        $this->getStub(StubType::CONTROLLER);
-        $this->stubReplace();
-        $filePath = realpath(config('lumen-crud.targets')[StubType::CONTROLLER] .
-                             $this->getReplacementArray()['modelNamePlural'] . 'Controller.php');
-        
-        file_put_contents($filePath, $this->currentStubContent);
-        
-        $this->comment("\t{$filePath}");
+    private function createCrudElement(string $stubType) {
+        $this->info($this->infoMessages[$stubType] . ' . . .');
+        if($this->saveCrudElement($stubType) === null)
+            $this->error('Failed to save file!');
     }
     
-    private function getStub($name) {
-        $this->currentStub = $name;
-        $this->currentStubContent = file_get_contents(config('lumen-crud.stubs')[$this->currentStub]);
+    private function saveCrudElement(string $stubType) {
+        $crudContent = file_get_contents(config('lumen-crud.stubs')[$stubType]);
+        $crudContent = $this->getContentReplaced($crudContent);
+        $targetPath = $this->getTargetPath($stubType);
+        $this->comment("\t" . $targetPath);
+        
+        return file_put_contents(
+            $targetPath,
+            $crudContent,
+            config('lumen-crud.write_flags')[$stubType]
+        );
     }
     
-    private function stubReplace() {
+    private function getTargetPath(string $stubType) {
+        $configPath = $this->getContentReplaced(config('lumen-crud.targets')[$stubType]);
+        
+        return dirname($configPath) . '/' . basename($configPath);
+    }
+    
+    private function getContentReplaced(string $content) : string {
         foreach($this->getReplacementArray() as $fieldName => $value)
-            $this->currentStubContent = str_replace('{{' . $fieldName . '}}', $value, $this->currentStubContent);
+            $content = str_replace('{{' . $fieldName . '}}', $value, $content);
+        
+        return $content;
     }
     
     private function getReplacementArray() {
