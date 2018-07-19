@@ -10,6 +10,7 @@ class MakeCrudCommand extends Command
     protected $signature = 'make:crud
                             {model : Model class name}
                             {--r|create-routes : Add CRUD routes to routes file}
+                            {--m|use-middleware : Use restObjectFetch middleware}
                             ';
     
     protected $description = 'Generate CRUD for model';
@@ -25,6 +26,9 @@ class MakeCrudCommand extends Command
         $this->modelName = studly_case(str_singular($this->argument('model')));
         $this->alert("CRUD generation for model '{$this->modelName}'");
     
+        if($this->option('use-middleware'))
+            $this->info(" -> Using RestObjectFetch middleware!");
+        
         $this->createCrudElement(StubType::CONTROLLER);
     
         if($this->option('create-routes'))
@@ -32,13 +36,14 @@ class MakeCrudCommand extends Command
     }
     
     private function createCrudElement(string $stubType) {
-        $this->info($this->infoMessages[$stubType] . ' . . .');
+        $this->info(' -> ' . $this->infoMessages[$stubType] . ' . . .');
         if($this->saveCrudElement($stubType) === null)
             $this->error('Failed to save file!');
     }
     
     private function saveCrudElement(string $stubType) {
-        $crudContent = file_get_contents(config('lumen-crud.stubs')[$stubType]);
+        $stubFilePath = config('lumen-crud.stubs')[$stubType . ($this->option('use-middleware') ? '_rof' : '')];
+        $crudContent = file_get_contents($stubFilePath);
         $crudContent = $this->getContentReplaced($crudContent);
         $targetPath = $this->getTargetPath($stubType);
         $this->comment("\t" . $targetPath);
@@ -52,8 +57,10 @@ class MakeCrudCommand extends Command
     
     private function getTargetPath(string $stubType) {
         $configPath = $this->getContentReplaced(config('lumen-crud.targets')[$stubType]);
-        
-        return dirname($configPath) . '/' . basename($configPath);
+        $configPath = dirname($configPath) . '/' . basename($configPath);
+        $configPath = preg_replace('/\\' . DIRECTORY_SEPARATOR . '+/', DIRECTORY_SEPARATOR, $configPath);
+    
+        return file_exists($configPath) ? realpath($configPath) : $configPath;
     }
     
     private function getContentReplaced(string $content) : string {

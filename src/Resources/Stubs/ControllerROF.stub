@@ -1,0 +1,49 @@
+<?php
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Models\{{modelName}};
+
+
+class {{modelNamePlural}}Controller extends Controller
+{
+    public function index() {
+        return new JsonResponse({{modelName}}::all());
+    }
+
+    public function show(Request $request) {
+        ${{model_name}} = $request->attributes->get('fetchedObject');
+
+        return new JsonResponse(${{model_name}});
+    }
+
+    public function store(Request $request) {
+        ${{model_name}} = new {{modelName}}($request->toArray());
+
+        // HERE: additional, non-fillable fields
+
+        ${{model_name}}->save();
+
+        if(${{model_name}})
+            return new JsonResponse([${{model_name}}], 201);
+
+        return new JsonResponse(['message' => 'Server Error'], 500);
+    }
+
+    public function destroy(Request $request) {
+        ${{model_name}} = $request->attributes->get('fetchedObject');
+
+        ${{model_name}}->delete();
+
+        return new JsonResponse([], 204);
+    }
+
+    public function update(Request $request) {
+        ${{model_name}} = $request->attributes->get('fetchedObject');
+
+        ${{model_name}}->update($request->toArray());
+
+        return new JsonResponse(${{model_name}});
+    }
+}

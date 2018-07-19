@@ -34,9 +34,11 @@ if(!in_array($app->environment(), ['testing', 'staging', 'production']))
 
 ## Usage
 
-`php artisan make:crud myModelName [-r|--create-routes]`
+`php artisan make:crud myModelName [-r|--create-routes] [-m|--use-middleware]`
 
-The command always created CRUD controller for model, the rest depends on the provided options.
+The command always created CRUD controller for model, the rest depends on the provided options:
+ * `-r|--create-routes` adds CRUD routes to routes file
+ * `-m|--use-middleware` uses [RestObjectFetch middleware](https://github.com/WRonX/Lumen-RestObjectFetch-middleware) in controller and routes (see middleware page to learn more) 
 
 ## Contributing
 
