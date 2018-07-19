@@ -6,4 +6,4 @@ _ide_helper_models.php
 .phpstorm.meta.php
 *.swp
 cghooks.lock
-
+composer.lock
