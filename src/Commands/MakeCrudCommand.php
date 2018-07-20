@@ -10,7 +10,9 @@ class MakeCrudCommand extends Command
     protected $signature = 'make:crud
                             {model : Model class name}
                             {--r|create-routes : Add CRUD routes to routes file}
-                            {--m|use-middleware : Use restObjectFetch middleware}
+                            {--w|use-middleware : Use restObjectFetch middleware}
+                            {--m|create-model : Create model file (using existing command)}
+                            {--g|create-migration : Create migration file (using existing command)}
                             ';
     
     protected $description = 'Generate CRUD for model';
@@ -27,12 +29,22 @@ class MakeCrudCommand extends Command
         $this->alert("CRUD generation for model '{$this->modelName}'");
     
         if($this->option('use-middleware'))
-            $this->info(" -> Using RestObjectFetch middleware!");
+            $this->info(' -> Using RestObjectFetch middleware!');
         
         $this->createCrudElement(StubType::CONTROLLER);
     
         if($this->option('create-routes'))
             $this->createCrudElement(StubType::ROUTES);
+    
+        if($this->option('create-model')) {
+            $this->info(' -> Running \'make:model\' command . . .');
+            $this->call('make:model', ['name' => config('lumen-crud.namespaces.models') . $this->modelName]);
+        }
+    
+        if($this->option('create-migration')) {
+            $this->info(' -> Running \'make:migration\' command . . .');
+            $this->call('make:migration', ['name' => 'create_' . snake_case(str_plural($this->modelName)) . '_table']);
+        }
     }
     
     private function createCrudElement(string $stubType) {
@@ -55,11 +67,11 @@ class MakeCrudCommand extends Command
         );
     }
     
-    private function getTargetPath(string $stubType) {
+    private function getTargetPath(string $stubType) : string {
         $configPath = $this->getContentReplaced(config('lumen-crud.targets')[$stubType]);
         $configPath = dirname($configPath) . '/' . basename($configPath);
         $configPath = preg_replace('/\\' . DIRECTORY_SEPARATOR . '+/', DIRECTORY_SEPARATOR, $configPath);
-    
+        
         return file_exists($configPath) ? realpath($configPath) : $configPath;
     }
     
@@ -70,7 +82,7 @@ class MakeCrudCommand extends Command
         return $content;
     }
     
-    private function getReplacementArray() {
+    private function getReplacementArray() : array {
         return [
             'modelName'         => $this->modelName,
             'modelNamePlural'   => str_plural($this->modelName),
