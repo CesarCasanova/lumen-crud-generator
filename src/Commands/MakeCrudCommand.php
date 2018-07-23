@@ -56,7 +56,11 @@ class MakeCrudCommand extends Command
     }
     
     private function saveCrudElement(string $stubType) {
-        $stubFilePath = config('lumen-crud.stubs')[$stubType . ($this->option('use-middleware') ? '_rof' : '')];
+        $stubFilePath = config('lumen-crud.stubs')[$stubType];
+        
+        if($this->option('use-middleware') && array_key_exists($stubType . '_rof', config('lumen-crud.stubs')))
+            $stubFilePath = config('lumen-crud.stubs')[$stubType . '_rof'];
+        
         $crudContent = file_get_contents($stubFilePath);
         $crudContent = $this->getContentReplaced($crudContent);
         $targetPath = $this->getTargetPath($stubType);
