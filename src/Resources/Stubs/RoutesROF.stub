@@ -14,22 +14,23 @@ $router->group(['name' => '{{model_name}}_routes'], function() use ($router) {
     });
 
     $router->group([
-                    'prefix' => '/user/{id}',
-                    'middleware' => 'WRonX\LumenRestObjectFetch\RestObjectFetchMiddleware:{{modelName}}'],
-            function() use ($router) {
-                $router->get('', [
-                    'uses' => '{{modelNamePlural}}Controller@show',
-                    'as'   => '{{model_name}}_show',
-                ]);
+                       'prefix' => '/{{model_name}}/{id}',
+                       'middleware' => 'WRonX\LumenRestObjectFetch\RestObjectFetchMiddleware:{{modelName}}'
+                   ],
+        function() use ($router) {
+            $router->get('', [
+                'uses' => '{{modelNamePlural}}Controller@show',
+                'as'   => '{{model_name}}_show',
+            ]);
         
-                $router->post('', [
-                    'uses' => '{{modelNamePlural}}Controller@update',
-                    'as'   => '{{model_name}}_update',
-                ]);
+            $router->post('', [
+                'uses' => '{{modelNamePlural}}Controller@update',
+                'as'   => '{{model_name}}_update',
+            ]);
                 
-                $router->delete('', [
-                    'uses' => '{{modelNamePlural}}Controller@destroy',
-                    'as'   => '{{model_name}}_destroy',
-                ]);
-            });
+            $router->delete('', [
+                'uses' => '{{modelNamePlural}}Controller@destroy',
+                'as'   => '{{model_name}}_destroy',
+            ]);
+        });
 });

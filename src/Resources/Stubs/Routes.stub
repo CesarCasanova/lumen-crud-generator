@@ -13,7 +13,7 @@ $router->group(['name' => '{{model_name}}_routes'], function() use ($router) {
         ]);
     });
 
-    $router->group(['prefix' => '/user/{id}'], function() use ($router) {
+    $router->group(['prefix' => '/{{model_name}}/{id}'], function() use ($router) {
         $router->get('', [
             'uses' => '{{modelNamePlural}}Controller@show',
             'as'   => '{{model_name}}_show',
