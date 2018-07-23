@@ -36,15 +36,17 @@ class MakeCrudCommand extends Command
         if($this->option('create-routes'))
             $this->createCrudElement(StubType::ROUTES);
     
-        if($this->option('create-model')) {
-            $this->info(' -> Running \'make:model\' command . . .');
-            $this->call('make:model', ['name' => config('lumen-crud.namespaces.models') . $this->modelName]);
-        }
+        if($this->option('create-model'))
+            $this->runExternalCommand('make:model', ['name' => config('lumen-crud.namespaces.models') . $this->modelName]);
     
-        if($this->option('create-migration')) {
-            $this->info(' -> Running \'make:migration\' command . . .');
-            $this->call('make:migration', ['name' => 'create_' . snake_case(str_plural($this->modelName)) . '_table']);
-        }
+        if($this->option('create-migration'))
+            $this->runExternalCommand('make:migration', ['name' => 'create_' . snake_case(str_plural($this->modelName)) . '_table']);
+    }
+    
+    private function runExternalCommand(string $command, array $attributes) {
+        $this->info(" -> Running '{$command}' command . . .");
+        
+        return $this->call($command, $attributes);
     }
     
     private function createCrudElement(string $stubType) {
