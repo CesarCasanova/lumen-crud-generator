@@ -1,0 +1,77 @@
+<?php
+namespace Tests\Crud;
+
+use {{modelsNamespace}}{{modelName}};
+use Laravel\Lumen\Testing\DatabaseTransactions;
+use Tests\TestCase;
+
+class {{modelNamePlural}}CrudTest extends TestCase
+{
+    use DatabaseTransactions;
+
+    private $test_data = [
+        // CREATE test data array HERE
+    ];
+
+    private $update_data = [
+        // CREATE test data array HERE
+    ];
+
+    public function test{{modelNamePlural}}ListRoute() {
+        $this->get(route('{{model_name_plural}}_index'));
+        $this->assertResponseOk();
+    }
+
+    public function test{{modelName}}Add() {
+        $this->post(route('{{model_name_plural}}_store'), $this->test_data);
+
+        $this->assertResponseStatus(201);
+        $this->seeJson($this->test_data);
+        $this->seeInDatabase('{{model_name_plural}}', $this->test_data);
+    }
+
+    public function test{{modelNamePlural}}ListShowsNewlyAddedObject() {
+
+        ${{model_name}} = new {{modelName}}($this->test_data);
+        ${{model_name}}->save();
+
+        $this->get(route('{{model_name_plural}}_index'));
+        $this->assertResponseOk();
+        $this->seeJson($this->test_data);
+    }
+
+    public function test{{modelName}}ShowRoute() {
+        ${{model_name}} = new {{modelName}}($this->test_data);
+        ${{model_name}}->save();
+
+        $this->get(route('{{model_name}}_show', ['id' => ${{model_name}}->id]));
+        $this->assertResponseOk();
+        $this->seeJson($this->test_data);
+    }
+
+    public function test{{modelName}}ShowRouteIncorrectId() {
+        $this->get(route('{{model_name}}_show', ['id' => -1]));
+
+        $this->assertResponseStatus(404);
+    }
+
+    public function test{{modelName}}Destroy() {
+        ${{model_name}} = new {{modelName}}($this->test_data);
+        ${{model_name}}->save();
+
+        $this->seeInDatabase('{{model_name_plural}}', $this->test_data);
+
+        $this->delete(route('{{model_name}}_destroy', ['id' => ${{model_name}}->id]));
+
+        $this->notSeeInDatabase('{{model_name_plural}}', $this->test_data);
+    }
+
+    public function test{{modelName}}Update() {
+        ${{model_name}} = new {{modelName}}($this->test_data);
+        ${{model_name}}->save();
+
+        $this->patch(route('{{model_name}}_update', ['id' => ${{model_name}}->id]), $this->update_data);
+
+        $this->seeInDatabase('{{model_name_plural}}', $this->update_data);
+    }
+}

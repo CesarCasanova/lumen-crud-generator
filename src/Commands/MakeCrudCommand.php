@@ -13,6 +13,7 @@ class MakeCrudCommand extends Command
                             {--w|use-middleware : Use restObjectFetch middleware}
                             {--m|create-model : Create model file (using existing command)}
                             {--g|create-migration : Create migration file (using existing command)}
+                            {--t|create-tests : Create simple tests for CRUD routes/actions}
                             ';
     
     protected $description = 'Generate CRUD for model';
@@ -20,6 +21,7 @@ class MakeCrudCommand extends Command
     private $infoMessages = [
         StubType::CONTROLLER => 'Creating controller',
         StubType::ROUTES     => 'Adding routes',
+        StubType::TESTS      => 'Creating tests',
     ];
     
     private $modelName;
@@ -41,6 +43,9 @@ class MakeCrudCommand extends Command
         
         if($this->option('create-migration'))
             $this->runExternalCommand('make:migration', ['name' => 'create_' . snake_case(str_plural($this->modelName)) . '_table']);
+        
+        if($this->option('create-tests'))
+            $this->createCrudElement(StubType::TESTS);
     }
     
     private function runExternalCommand(string $command, array $attributes) {
