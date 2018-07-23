@@ -25,7 +25,7 @@ composer require --dev wronx/lumen-crud-generator
 
 ```php
 // edit the environment condition below:
-if(!in_array($app->environment(), ['testing', 'staging', 'production']))
+if(!in_array($app->environment(), ['staging', 'production']))
     $app->register(WRonX\LumenCrudGenerator\Providers\LumenCrudGeneratorProvider::class);
 ```
 
@@ -34,12 +34,16 @@ if(!in_array($app->environment(), ['testing', 'staging', 'production']))
 
 ## Usage
 
-`php artisan make:crud myModelName [-r|--create-routes] [-m|--use-middleware]`
+`php artisan make:crud myModelName [options]`
 
 The command always created CRUD controller for model, the rest depends on the provided options:
  * `-r|--create-routes` adds CRUD routes to routes file
- * `-m|--use-middleware` uses [RestObjectFetch middleware](https://github.com/WRonX/Lumen-RestObjectFetch-middleware) in controller and routes (see middleware page to learn more) 
-
+ * `-w|--use-middleware` uses [RestObjectFetch middleware](https://github.com/WRonX/Lumen-RestObjectFetch-middleware) in controller and routes (see middleware page to learn more) 
+ * `-m|--create-model` for now it calls `make:model` command from [Lumen Generator](https://packagist.org/packages/flipbox/lumen-generator), hopefully it will be changed later 
+ * `-g|--create-migration` for now it calls `make:migration` command, hopefully it will be changed later
+ * `-t|--create-tests` creates CRUD tests code (needs some editing inside the file!)
+ 
+ 
 ## Contributing
 
 If you want to contribute, **please wait**. Until stable version arrives I want to shape this package in my specific way. Later on, pull requests will be welcome. 
