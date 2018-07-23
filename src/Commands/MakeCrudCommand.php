@@ -62,6 +62,10 @@ class MakeCrudCommand extends Command
         $targetPath = $this->getTargetPath($stubType);
         $this->comment("\t" . $targetPath);
         
+        if(!file_exists(dirname($targetPath)))
+            if(!mkdir(dirname($targetPath), 0755, true) && !is_dir(dirname($targetPath)))
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', dirname($targetPath)));
+        
         return file_put_contents(
             $targetPath,
             $crudContent,
