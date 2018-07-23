@@ -19,7 +19,7 @@ $router->group(['name' => '{{model_name}}_routes'], function() use ($router) {
             'as'   => '{{model_name}}_show',
         ]);
 
-        $router->post('', [
+        $router->patch('', [
             'uses' => '{{modelNamePlural}}Controller@update',
             'as'   => '{{model_name}}_update',
         ]);
