@@ -27,18 +27,18 @@ class MakeCrudCommand extends Command
     public function handle() {
         $this->modelName = studly_case(str_singular($this->argument('model')));
         $this->alert("CRUD generation for model '{$this->modelName}'");
-    
+        
         if($this->option('use-middleware'))
             $this->info(' -> Using RestObjectFetch middleware!');
         
         $this->createCrudElement(StubType::CONTROLLER);
-    
+        
         if($this->option('create-routes'))
             $this->createCrudElement(StubType::ROUTES);
-    
+        
         if($this->option('create-model'))
             $this->runExternalCommand('make:model', ['name' => config('lumen-crud.namespaces.models') . $this->modelName]);
-    
+        
         if($this->option('create-migration'))
             $this->runExternalCommand('make:migration', ['name' => 'create_' . snake_case(str_plural($this->modelName)) . '_table']);
     }
@@ -65,7 +65,7 @@ class MakeCrudCommand extends Command
         return file_put_contents(
             $targetPath,
             $crudContent,
-            config('lumen-crud.write_flags')[$stubType]
+            config('lumen-crud.write_flags')[$stubType] ?? 0
         );
     }
     
