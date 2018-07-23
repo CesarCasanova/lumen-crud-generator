@@ -90,6 +90,7 @@ class MakeCrudCommand extends Command
             'modelNamePlural'   => str_plural($this->modelName),
             'model_name'        => snake_case($this->modelName),
             'model_name_plural' => snake_case(str_plural($this->modelName)),
+            'modelsNamespace'   => config('lumen-crud.namespaces.models'),
         ];
     }
 }

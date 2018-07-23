@@ -1,7 +1,7 @@
 <?php
 return [
     'namespaces' => [
-        'models' => 'App\Models\\',
+        'models' => 'App\Models\\', // include trailing slash here!
     ],
     'stubs'      => [
         'controller'     => __DIR__ . '/../src/Resources/Stubs/Controller.stub',
