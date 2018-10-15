@@ -27,7 +27,5 @@ class LumenCrudGeneratorProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__ . '/../../config/lumen-crud.php', 'lumen-crud'
         );
-    
-        $this->app->register(\Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
     }
 }
