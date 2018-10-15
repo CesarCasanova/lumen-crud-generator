@@ -21,6 +21,7 @@ class MakeCrudCommand extends Command
     private $infoMessages = [
         StubType::CONTROLLER => 'Creating controller',
         StubType::MODEL      => 'Creating model',
+        StubType::MIGRATION  => 'Creating migration',
         StubType::ROUTES     => 'Adding routes',
         StubType::TESTS      => 'Creating tests',
     ];
@@ -43,16 +44,10 @@ class MakeCrudCommand extends Command
             $this->createCrudElement(StubType::MODEL);
         
         if($this->option('create-migration'))
-            $this->runExternalCommand('make:migration', ['name' => 'create_' . snake_case(str_plural($this->modelName)) . '_table']);
+            $this->createCrudElement(StubType::MIGRATION);
         
         if($this->option('create-tests'))
             $this->createCrudElement(StubType::TESTS);
-    }
-    
-    private function runExternalCommand(string $command, array $attributes) {
-        $this->info(" -> Running '{$command}' command . . .");
-        
-        return $this->call($command, $attributes);
     }
     
     private function createCrudElement(string $stubType) {
@@ -83,14 +78,6 @@ class MakeCrudCommand extends Command
         );
     }
     
-    private function getTargetPath(string $stubType) : string {
-        $configPath = $this->getContentReplaced(config('lumen-crud.targets')[$stubType]);
-        $configPath = dirname($configPath) . '/' . basename($configPath);
-        $configPath = preg_replace('/\\' . DIRECTORY_SEPARATOR . '+/', DIRECTORY_SEPARATOR, $configPath);
-        
-        return file_exists($configPath) ? realpath($configPath) : $configPath;
-    }
-    
     private function getContentReplaced(string $content) : string {
         foreach($this->getReplacementArray() as $fieldName => $value)
             $content = str_replace('{{' . $fieldName . '}}', $value, $content);
@@ -107,5 +94,13 @@ class MakeCrudCommand extends Command
             'modelsNamespace'   => config('lumen-crud.namespaces.models'),
             'modelsFolder'      => preg_replace(['/^(App)($|\\\\)/', '/\\\\/'], [app()->path() . '${2}', '/'], config('lumen-crud.namespaces.models')),
         ];
+    }
+    
+    private function getTargetPath(string $stubType) : string {
+        $configPath = $this->getContentReplaced(config('lumen-crud.targets')[$stubType]);
+        $configPath = dirname($configPath) . '/' . basename($configPath);
+        $configPath = preg_replace('/\\' . DIRECTORY_SEPARATOR . '+/', DIRECTORY_SEPARATOR, $configPath);
+        
+        return file_exists($configPath) ? realpath($configPath) : $configPath;
     }
 }

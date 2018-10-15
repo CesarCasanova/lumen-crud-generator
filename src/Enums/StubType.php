@@ -8,4 +8,5 @@ class StubType
     const ROUTES     = 'routes';
     const TESTS      = 'tests';
     const MODEL      = 'model';
+    const MIGRATION  = 'migration';
 }
