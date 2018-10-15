@@ -1,7 +1,7 @@
 <?php
 namespace Tests\Crud;
 
-use {{modelsNamespace}}{{modelName}};
+use {{modelsNamespace}}\{{modelName}};
 use Laravel\Lumen\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
