@@ -20,6 +20,7 @@ class MakeCrudCommand extends Command
     
     private $infoMessages = [
         StubType::CONTROLLER => 'Creating controller',
+        StubType::MODEL      => 'Creating model',
         StubType::ROUTES     => 'Adding routes',
         StubType::TESTS      => 'Creating tests',
     ];
@@ -39,7 +40,7 @@ class MakeCrudCommand extends Command
             $this->createCrudElement(StubType::ROUTES);
         
         if($this->option('create-model'))
-            $this->runExternalCommand('make:model', ['name' => config('lumen-crud.namespaces.models') . $this->modelName]);
+            $this->createCrudElement(StubType::MODEL);
         
         if($this->option('create-migration'))
             $this->runExternalCommand('make:migration', ['name' => 'create_' . snake_case(str_plural($this->modelName)) . '_table']);
@@ -104,6 +105,7 @@ class MakeCrudCommand extends Command
             'model_name'        => snake_case($this->modelName),
             'model_name_plural' => snake_case(str_plural($this->modelName)),
             'modelsNamespace'   => config('lumen-crud.namespaces.models'),
+            'modelsFolder'      => preg_replace(['/^(App)($|\\\\)/', '/\\\\/'], [app()->path() . '${2}', '/'], config('lumen-crud.namespaces.models')),
         ];
     }
 }
