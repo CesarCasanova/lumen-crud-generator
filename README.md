@@ -43,6 +43,7 @@ The command always created CRUD controller for model, the rest depends on the pr
  * `-g|--create-migration` for now it calls `make:migration` command, hopefully it will be changed later
  * `-t|--create-tests` creates CRUD tests code (needs some editing inside the file!)
  
+It creates separate `CRUD` subdirectory for tests, so in order to use tests, you need to update `TestCase` (or whatever your main class is) with `Tests` namespace, which involves adding `namespace Tests;` line on the top and leading slash before `Laravel` in parent class name.
  
 ## Contributing
 
