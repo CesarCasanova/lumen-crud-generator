@@ -1,24 +1,15 @@
 ## Lumen CRUD Generator
 
-> **IMPORTANT:** This package is a work in progress, it it not stable by any means.   
-> Use responsibly! Or don't use at all and wait for v1.0.
-
 #### The purpose of this project
 
 It was created to make creating simple Lumen APIs easier and faster, automating repeatable tasks.
-
-#### Is it any good?
-
-[Yes](https://news.ycombinator.com/item?id=3067434)
-
-(well, it will be in stable version... I hope...)
 
 ## Installation
 
 1. Install the package with [Composer](https://getcomposer.org/):  
  
 ```bash
-composer require --dev wronx/lumen-crud-generator
+composer require --dev ccasanova/lumen-crud-generator
 ```
 
 2. Enable it in `bootstrap/app.php`:
@@ -38,7 +29,7 @@ if(!in_array($app->environment(), ['staging', 'production']))
 
 The command always created CRUD controller for model, the rest depends on the provided options:
  * `-r|--create-routes` adds CRUD routes to routes file
- * `-w|--use-middleware` uses [RestObjectFetch middleware](https://github.com/WRonX/Lumen-RestObjectFetch-middleware) in controller and routes (see middleware page to learn more) 
+ * `-w|--use-middleware` uses [RestObjectFetch middleware] in controller and routes (see middleware page to learn more) 
  * `-m|--create-model` for now it calls `make:model` command from [Lumen Generator](https://packagist.org/packages/flipbox/lumen-generator), hopefully it will be changed later 
  * `-g|--create-migration` for now it calls `make:migration` command, hopefully it will be changed later
  * `-t|--create-tests` creates CRUD tests code (needs some editing inside the file!)
