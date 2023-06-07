@@ -89,9 +89,9 @@ class MakeCrudCommand extends Command
     private function getReplacementArray() : array {
         return [
             'modelName'         => $this->modelName,
-            'modelNamePlural'   => str_plural($this->modelName),
-            'model_name'        => snake_case($this->modelName),
-            'model_name_plural' => snake_case(str_plural($this->modelName)),
+            'modelNamePlural'   => Str::plural($this->modelName),
+            'model_name'        => Str::snake($this->modelName),
+            'model_name_plural' => Str::snake(Str::plural($this->modelName)),
             'modelsNamespace'   => config('lumen-crud.namespaces.models'),
             'modelsFolder'      => preg_replace(['/^(App)($|\\\\)/', '/\\\\/'], [app()->path() . '${2}', '/'], config('lumen-crud.namespaces.models')),
         ];
