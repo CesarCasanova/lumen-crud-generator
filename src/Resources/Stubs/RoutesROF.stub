@@ -15,7 +15,7 @@ $router->group(['name' => '{{model_name}}_routes'], function() use ($router) {
 
     $router->group([
                        'prefix' => '/{{model_name}}/{id}',
-                       'middleware' => 'WRonX\LumenRestObjectFetch\RestObjectFetchMiddleware:{{modelName}}'
+                       'middleware' => 'WRonX\Middleware\RestObjectFetchMiddleware:{{modelName}}'
                    ],
         function() use ($router) {
             $router->get('', [
