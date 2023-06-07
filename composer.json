@@ -1,5 +1,5 @@
 {
-    "name": "wronx/lumen-crud-generator",
+    "name": "ccasanova/lumen-crud-generator",
     "description": "Simple CRUD generation for Lumen",
     "license": "WTFPL",
     "type": "lumen-package",
@@ -9,20 +9,12 @@
         "lumen"
     ],
     "require": {
-        "laravel/lumen-framework": "^5.7",
+        "laravel/lumen-framework": "^10.0",
         "wronx/lumen-rest-object-fetch-middleware": "^0.1"
     },
-    "authors": [
-        {
-            "name": "Marcin \"WRonX\" Wronka",
-            "email": "wronx@wronx.net",
-            "homepage": "http://wronx.net",
-            "role": "Developer"
-        }
-    ],
     "autoload": {
         "psr-4": {
-            "WRonX\\LumenCrudGenerator\\": "src"
+            "LumenCrudGenerator\\": "src"
         }
     },
     "config": {
@@ -31,7 +23,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "WRonX\\LumenCrudGenerator\\Providers\\LumenCrudGeneratorProvider"
+                "LumenCrudGenerator\\Providers\\LumenCrudGeneratorProvider"
             ]
         }
     }
