@@ -2,6 +2,7 @@
 
 namespace WRonX\LumenCrudGenerator\Commands;
 
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use WRonX\LumenCrudGenerator\Enums\StubType;
 
@@ -29,7 +30,7 @@ class MakeCrudCommand extends Command
     private $modelName;
     
     public function handle() {
-        $this->modelName = studly_case(str_singular($this->argument('model')));
+        $this->modelName = Str::studly(Str::singular($this->argument('model')));
         $this->alert("CRUD generation for model '{$this->modelName}'");
         
         if($this->option('use-middleware'))

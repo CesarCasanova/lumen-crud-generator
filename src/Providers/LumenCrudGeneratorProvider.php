@@ -14,8 +14,8 @@ class LumenCrudGeneratorProvider extends ServiceProvider
         
         if($this->app->runningInConsole()) {
             $this->commands([
-                                MakeCrudCommand::class,
-                            ]);
+                MakeCrudCommand::class,
+            ]);
         }
     }
     
