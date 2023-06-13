@@ -3,29 +3,29 @@
 $router->group(['name' => '{{model_name}}_routes'], function() use ($router) {
     $router->group(['prefix' => '/{{model_name_plural}}'], function() use ($router) {
         $router->get('', [
-            'uses' => '{{modelNamePlural}}Controller@index',
+            'uses' => '{{modelName}}Controller@index',
             'as'   => '{{model_name_plural}}_index',
         ]);
 
         $router->post('', [
-            'uses' => '{{modelNamePlural}}Controller@store',
+            'uses' => '{{modelName}}Controller@store',
             'as'   => '{{model_name_plural}}_store',
         ]);
     });
 
     $router->group(['prefix' => '/{{model_name_plural}}/{id}'], function() use ($router) {
         $router->get('', [
-            'uses' => '{{modelNamePlural}}Controller@show',
+            'uses' => '{{modelName}}Controller@show',
             'as'   => '{{model_name}}_show',
         ]);
 
         $router->patch('', [
-            'uses' => '{{modelNamePlural}}Controller@update',
+            'uses' => '{{modelName}}Controller@update',
             'as'   => '{{model_name}}_update',
         ]);
         
         $router->delete('', [
-            'uses' => '{{modelNamePlural}}Controller@destroy',
+            'uses' => '{{modelName}}Controller@destroy',
             'as'   => '{{model_name}}_destroy',
         ]);
     });

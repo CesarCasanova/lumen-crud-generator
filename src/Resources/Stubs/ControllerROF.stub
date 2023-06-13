@@ -6,7 +6,7 @@ use Illuminate\Http\JsonResponse;
 use {{modelsNamespace}}\{{modelName}};
 
 
-class {{modelNamePlural}}Controller extends Controller
+class {{modelName}}Controller extends Controller
 {
     public function index() {
         return new JsonResponse({{modelName}}::all());
