@@ -13,7 +13,7 @@ return [
         'migration'      => __DIR__ . '/../src/Resources/Stubs/Migration.stub',
     ],
     'targets'     => [
-        'controller' => app()->path() . '/Http/Controllers/{{modelNamePlural}}Controller.php',
+        'controller' => app()->path() . '/Http/Controllers/{{modelName}}Controller.php',
         'routes'     => app()->path() . '/../routes/web.php',
         'tests'      => app()->path() . '/../tests/CRUD/{{modelNamePlural}}CrudTest.php',
         'migration'  => app()->path() . '/../database/migrations/' . date("Y_m_d_His") . '_create_{{model_name_plural}}_table.php',
